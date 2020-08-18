@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма регистрации пользователя</title>
+    <script src="vue.js"></script>
+    <script src="node_modules/vuelidate/dist/vuelidate.min.js"></script>
+    <script src="node_modules/vuelidate/dist/validators.min.js"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div id="signup-form">
+        <form method="POST" action="https://vuejs.org/" @sumbit="submitHandler">
+            <label>
+                <p>Фамилия:</p>
+                <input type="text" v-model="$v.last_name.$model" :class="status($v.last_name)">
+            </label>
+
+            <label>
+                <p>Имя:</p>
+                <input type="text" v-model="first_name" @change="$v.first_name.$touch()" :class="status($v.first_name)">
+                <p v-if="!$v.first_name.required">Имя является обязательным полем!</p>
+            </label>
+            
+
+            <input type="submit">
+        </form>
+    </div>
+
+    <script src="index.js" type="application/javascript"></script>
+</body>
+</html>
