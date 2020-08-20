@@ -8,24 +8,128 @@
     <script src="node_modules/vuelidate/dist/vuelidate.min.js"></script>
     <script src="node_modules/vuelidate/dist/validators.min.js"></script>
     <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="signup-form">
-        <form method="POST" action="https://vuejs.org/" @sumbit="submitHandler">
-            <label>
-                <p>Фамилия:</p>
-                <input type="text" v-model="$v.last_name.$model" :class="status($v.last_name)">
-            </label>
+        <form @submit="checkForm" method="POST" class="form" action="check.php">
+            <h1 class="form__title">Регистрация нового пользователя</h1>
 
-            <label>
-                <p>Имя:</p>
-                <input type="text" v-model="first_name" @change="$v.first_name.$touch()" :class="status($v.first_name)">
-                <p v-if="!$v.first_name.required">Имя является обязательным полем!</p>
-            </label>
-            
+            <fieldset class="form__fieldset">
+                <legend>Личная информация</legend>
+                <div class="form__fieldset-items-container">
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.last_name.$error }">
+                        <p class="form__item-title">Фамилия:</p>
+                        <input class="form__input" name="last_name" type="text" v-model.trim="$v.last_name.$model" :class="status($v.last_name)" placeholder="Ваша фамилия">
+                        <p class="form__error-text" v-if="!$v.last_name.required">Фамилия является обязательным полем!</p>
+                        <p class="form__error-text" v-if="(!$v.last_name.minLength && $v.last_name.firstLetterIsUppercase && $v.last_name.isName)">Фамилия должна состоять минимум из {{ $v.last_name.$params.minLength.min }} букв</p>
+                        <p class="form__error-text" v-if="(!$v.last_name.firstLetterIsUppercase && $v.last_name.isName)">Фамилия должна начинаться с большой буквы</p>
+                        <p class="form__error-text" v-if="!$v.last_name.isName">Фамилия может содержать только буквы, дефисы и пробелы</p>
+                    </label>
 
-            <input type="submit">
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.first_name.$error }">
+                        <p class="form__item-title">Имя:</p>
+                        <input class="form__input" name="first_name" type="text" v-model.trim="$v.first_name.$model" :class="status($v.first_name)" placeholder="Ваше имя">
+                        <p class="form__error-text" v-if="!$v.first_name.required">Имя является обязательным полем!</p>
+                        <p class="form__error-text" v-if="(!$v.first_name.minLength && $v.first_name.firstLetterIsUppercase && $v.first_name.isName)">Имя должно состоять минимум из {{ $v.first_name.$params.minLength.min }} букв</p>
+                        <p class="form__error-text" v-if="(!$v.first_name.firstLetterIsUppercase && $v.first_name.isName)">Имя должно начинаться с большой буквы</p>
+                        <p class="form__error-text" v-if="!$v.first_name.isName">Имя может содержать только буквы, дефисы и пробелы</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.middle_name.$error }">
+                        <p class="form__item-title">Отчество:</p>
+                        <input class="form__input" name="middle_name" type="text" v-model.trim="$v.middle_name.$model" :class="status($v.middle_name)" placeholder="Ваше отчество">
+                        <p class="form__error-text" v-if="(!$v.middle_name.minLength && $v.middle_name.firstLetterIsUppercase && $v.middle_name.isName)">Отчество должно состоять минимум из {{ $v.middle_name.$params.minLength.min }} букв</p>
+                        <p class="form__error-text" v-if="(!$v.middle_name.firstLetterIsUppercase && $v.middle_name.isName)">Отчество должно начинаться с большой буквы</p>
+                        <p class="form__error-text" v-if="!$v.middle_name.isName">Отчество может содержать только буквы, дефисы и пробелы</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.birth_date.$error }">
+                        <p class="form__item-title">Дата рождения:</p>
+                        <input class="form__input" name="birth_date" type="text" v-model.trim="$v.birth_date.$model" :class="status($v.birth_date)" placeholder="ДД.ММ.ГГГГ">
+                        <p class="form__error-text" v-if="!$v.birth_date.required">Дата рождения является обязательным полем!</p>
+                        <p class="form__error-text" v-if="!$v.birth_date.isBirthDate">Укажите дату в формате ДД.ММ.ГГГГ</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.phone_number.$error }">
+                        <p class="form__item-title">Номер телефона (начиная с 7):</p>
+                        <input class="form__input" name="phone_number" type="tel" v-model.trim="$v.phone_number.$model" :class="status($v.phone_number)" placeholder="Например, 79999999999">
+                        <p class="form__error-text" v-if="!$v.phone_number.required">Номер телефона является обязательным полем!</p>
+                        <p class="form__error-text" v-if="!$v.phone_number.numeric">Допускаются только цифры, без пробелов и дефисов</p>
+                        <p class="form__error-text" v-if="(!$v.phone_number.firstNumberIsSeven && $v.phone_number.numeric)">Номер должен начинаться с цифры 7</p>
+                        <p class="form__error-text" v-if="(!$v.phone_number.phoneIsCorrect && $v.phone_number.numeric && $v.phone_number.firstNumberIsSeven)">Длина номера должна составлять 11 цифр</p>
+                    </label>
+
+                    <div class="form__item">
+                        <p class="form__item-title">Пол:</p>
+                        <label class="form__radio-container">Мужчина
+                            <input class="form__radio-input" name="gender" type="radio" v-model="gender" value="male">
+                        </label>
+                        <label class="form__radio-container">Женщина
+                            <input class="form__radio-input" name="gender" type="radio" v-model="gender" value="female">
+                        </label>
+                    </div>
+
+                    <div class="form__item" :class="{ 'form__item_has-error': $v.client_group.$error }">
+                        <p class="form__item-title">Группа клиентов:</p>
+                        <select class="form__selector" name="client_group" v-model="client_group" multiple>
+                            <option value="VIP">VIP</option>
+                            <option value="problematic">Проблемные</option>
+                            <option value="CHI">ОМС</option>
+                        </select>
+                        <p class="form__error-text" v-if="!$v.client_group.required">Группа клиентов является обязательным полем!</p>
+                    </div>
+                    
+                    <div class="form__item">
+                        <p class="form__item-title">Лечащий врач:</p>
+                        <select class="form__selector" name="doctor_name" v-model="doctor_name">
+                            <option disabled value="">Выберите один из вариантов</option>
+                            <option value="Ivanov">Иванов</option>
+                            <option value="Zakharov">Захаров</option>
+                            <option value="Chernisheva">Чернышева</option>
+                        </select>
+                    </div>
+
+                    <label class="form__item form__checkbox-container">
+                        <p class="form__item-title">Не отправлять СМС:</p>
+                        <input class="form__checkbox-input" type="checkbox" name="get_sms_notifications" value="false" v-model="get_sms_notifications" true-value="false" false-value="true">
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="form__fieldset">
+                <legend>Адрес</legend>
+                <div class="form__fieldset-items-container">
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.postal_code.$error }">
+                        <p class="form__item-title">Индекс:</p>
+                        <input class="form__input" name="postal_code" type="text" v-model.trim="$v.postal_code.$model" :class="status($v.postal_code)" placeholder="Почтовый индекс">
+                        <p class="form__error-text" v-if="!$v.postal_code.numeric">Индекс может содержать только цифры</p>
+                        <p class="form__error-text" v-if="(!$v.postal_code.minLength && $v.postal_code.numeric)">Индекс должен состоять минимум из {{ $v.postal_code.$params.minLength.min }} цифр</p>
+                        <p class="form__error-text" v-if="(!$v.postal_code.maxLength && $v.postal_code.numeric)">Индекс может состоять максимум из {{ $v.postal_code.$params.maxLength.max }} цифр</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.country.$error }">
+                        <p class="form__item-title">Страна:</p>
+                        <input class="form__input" name="country" type="text" v-model.trim="$v.country.$model" :class="status($v.country)" placeholder="Название страны">
+                        <p class="form__error-text" v-if="(!$v.country.minLength && $v.country.firstLetterIsUppercase && $v.country.isName)">Название страны должно состоять минимум из {{ $v.country.$params.minLength.min }} букв</p>
+                        <p class="form__error-text" v-if="(!$v.country.firstLetterIsUppercase && $v.country.isName)">Название страны должно начинаться с большой буквы</p>
+                        <p class="form__error-text" v-if="!$v.country.isName">Название страны может содержать только буквы, дефисы и пробелы</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.region.$error }">
+                        <p class="form__item-title">Область:</p>
+                        <input class="form__input" name="region" type="text" v-model.trim="$v.region.$model" :class="status($v.region)" placeholder="Название области">
+                        <p class="form__error-text" v-if="(!$v.region.minLength && $v.region.firstLetterIsUppercase && $v.region.isName)">Название области должно состоять минимум из {{ $v.region.$params.minLength.min }} букв</p>
+                        <p class="form__error-text" v-if="(!$v.region.firstLetterIsUppercase && $v.region.isName)">Название области должно начинаться с большой буквы</p>
+                        <p class="form__error-text" v-if="!$v.region.isName">Название области может содержать только буквы, дефисы и пробелы</p>
+                    </label>
+                </div>
+            </fieldset>
+
+            <button class="form__submit-button" type="submit">Зарегистрироваться</button>
         </form>
+
+    
     </div>
 
     <script src="index.js" type="application/javascript"></script>

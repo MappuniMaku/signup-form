@@ -1,5 +1,5 @@
 html
-    font-family: Arial, sans-serif
+    font-family: 'Open Sans', sans-serif
 
 p
     margin: 0px
@@ -30,3 +30,119 @@ input
 
 .error:focus 
   outline-color: #F99
+
+.form
+  display: flex
+  flex-direction: column
+  align-items: center
+  width: fit-content
+  border: 1px solid gray
+  margin: 0 auto
+  padding: 20px
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.2)
+  border-radius: 4px
+
+  &__title
+    text-align: center
+    margin: 0 0 30px 0
+
+  &__fieldset-items-container
+    max-width: 600px
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: space-around
+
+  &__error-text
+    font-size: 14px
+    display: none
+    // position: absolute
+    bottom: 0
+    left: 0
+    // white-space: nowrap
+    color: #F99
+    position: relative
+    white-space: normal
+
+  &__item
+    // margin-bottom: 5px
+    // padding: 0 0 20px 0
+    padding: 0
+    margin: 0 0 10px 0
+    position: relative
+    width: 250px
+
+    &_has-error
+
+      .form__error-text
+        display: block
+
+  &__item-title
+    font-size: 16px
+    margin: 0 0 5px 0
+
+  &__input
+    width: 250px
+    height: 40px
+    box-sizing: border-box
+
+  &__radio-container
+    padding: 0 0 0 25px
+    position: relative
+    cursor: pointer
+
+  &__radio-input
+    position: absolute
+    left: 0
+    top: 2px
+    cursor: pointer
+
+  &__selector
+    cursor: pointer
+
+  &__checkbox-container
+    display: flex
+    flex-direction: row
+    align-items: center
+    margin: 0
+    padding: 0
+    width: 200px
+
+    .form__item-title
+      margin: 0
+      cursor: pointer
+
+  &__checkbox-input
+    cursor: pointer
+    margin: 0 0 0 20px
+  
+  &__submit-button
+    cursor: pointer
+    height: 30px
+    font-size: 16px
+    padding: 0 10px
+    margin: 10px 0 0 0
+
+@media (max-width: 700px)
+  .form
+    padding: 20px 15px
+
+    &__fieldset-items-container
+      max-width: 400px
+
+    &__title
+      font-size: 24px
+      
+    // &__item
+    //   padding: 0
+    //   margin: 0 0 10px 0
+
+    // &__error-text
+    //   position: relative
+    //   bottom: 0px
+    //   left: 0px
+    //   white-space: normal
+
+@media (max-width: 400px)
+  .form
+    padding: 20px 5px
