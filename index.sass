@@ -7,13 +7,6 @@ p
 a
     text-decoration: none
 
-input 
-    border: 1px solid silver
-    border-radius: 4px
-    background: white
-    padding: 5px 10px
-
-
 .dirty 
   border-color: #5A5
   background: #EFE
@@ -46,12 +39,16 @@ input
     text-align: center
     margin: 0 0 30px 0
 
+  &__fieldset
+    margin: 0 0 20px 0
+    padding: 20px 30px
+
   &__fieldset-items-container
-    max-width: 600px
+    max-width: 550px
     display: flex
     flex-direction: row
     flex-wrap: wrap
-    justify-content: space-around
+    justify-content: space-between
 
   &__error-text
     font-size: 14px
@@ -85,6 +82,11 @@ input
     width: 250px
     height: 40px
     box-sizing: border-box
+    font-size: 14px
+    font-family: inherit
+    border: 1px solid silver
+    border-radius: 4px
+    padding: 5px 10px
 
   &__radio-container
     padding: 0 0 0 25px
@@ -99,14 +101,25 @@ input
 
   &__selector
     cursor: pointer
+    font-size: 14px
+    padding: 5px
+    font-family: inherit
+    width: 250px
+    min-height: 40px
 
   &__checkbox-container
     display: flex
     flex-direction: row
     align-items: center
+    justify-content: space-around
     margin: 0
     padding: 0
-    width: 200px
+    width: 250px
+    border: 1px solid silver
+    border-radius: 4px
+    padding: 5px 20px
+    box-sizing: border-box
+    cursor: pointer
 
     .form__item-title
       margin: 0
@@ -114,7 +127,16 @@ input
 
   &__checkbox-input
     cursor: pointer
-    margin: 0 0 0 20px
+    margin: 0
+
+  &__textarea
+    min-height: 80px
+    min-width: 250px
+    max-width: 250px
+    box-sizing: border-box
+    font-size: 14px
+    font-family: inherit
+    padding: 3px
   
   &__submit-button
     cursor: pointer
@@ -146,3 +168,6 @@ input
 @media (max-width: 400px)
   .form
     padding: 20px 5px
+
+    &__fieldset
+      padding: 20px 10px

@@ -4,7 +4,7 @@ Vue.use(window.vuelidate.default);
 
 const { required, minLength, maxLength, numeric, between, helpers } = window.validators;
 const isName = helpers.regex('isName', /^[a-zA-Zа-яА-ЯёЁ\-\s]*$/);
-const isBirthDate = helpers.regex('isBirthDate', /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/g);
+const isDate = helpers.regex('isDate', /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/g);
 const firstLetterIsUppercase = (value) => {
     if (!value) {
         return true;
@@ -22,6 +22,7 @@ const firstNumberIsSeven = (value) => {
     return stringNumber[0] === '7';
 };
 const phoneIsCorrect = helpers.regex('phoneIsCorrect', /^[7][0-9]{10}$/g);
+const isBirthCertificateSeries = helpers.regex('isBirthCertificateSeries', /^[ivxIVX]{1,3}\-[а-яА-ЯёЁ]{2}$/g);
 
 // ===========================================================================================================================
 
@@ -43,7 +44,29 @@ let vm = new Vue({
         city: '',
         street: '',
         house_number: '',
+        document_type: '',
+        document_series: '',
+        birth_certificate_series: '',
+        document_number: '',
+        document_issuer: '',
+        document_date: '',
     },
+    // computed: {
+    //     document_series_validators: {
+    //         get: function () {
+    //             if (this.document_type === 'birth_certificate') {
+    //                 return {
+
+    //                 };
+    //             } else return {
+    //                 numeric,
+    //                 minLength: minLength(4),
+    //                 maxLength: maxLength(4),
+    //             };
+    //         }
+
+    //     }
+    // },
     methods: {
         checkForm: function (e) {
             if (this.$v.$invalid) {
@@ -56,8 +79,8 @@ let vm = new Vue({
         },
         status(validation) {
             return {
-                error: validation.$error,
-                dirty: validation.$dirty
+                'error': validation.$error,
+                'dirty': validation.$dirty
             }
         }
     },
@@ -81,7 +104,7 @@ let vm = new Vue({
         },
         birth_date: {
             required,
-            isBirthDate
+            isDate
         },
         phone_number: {
             required,
@@ -91,6 +114,9 @@ let vm = new Vue({
         },
         client_group: {
             required
+        },
+        doctor_name: {
+            
         },
         postal_code: {
             numeric,
@@ -119,5 +145,28 @@ let vm = new Vue({
             firstLetterIsUppercase
         },
         house_number: {},
+        document_type: {
+            required
+        },
+        document_series: {
+            numeric,
+            minLength: minLength(4),
+            maxLength: maxLength(4)
+        },
+        birth_certificate_series: {
+            isBirthCertificateSeries
+        },
+        document_number: {
+            numeric,
+            minLength: minLength(6),
+            maxLength: maxLength(6)
+        },
+        document_issuer: {
+            
+        },
+        document_date: {
+            required,
+            isDate
+        }
     }
 });

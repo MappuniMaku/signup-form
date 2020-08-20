@@ -48,7 +48,7 @@
                         <p class="form__item-title">Дата рождения:</p>
                         <input class="form__input" name="birth_date" type="text" v-model.trim="$v.birth_date.$model" :class="status($v.birth_date)" placeholder="ДД.ММ.ГГГГ">
                         <p class="form__error-text" v-if="!$v.birth_date.required">Дата рождения является обязательным полем!</p>
-                        <p class="form__error-text" v-if="!$v.birth_date.isBirthDate">Укажите дату в формате ДД.ММ.ГГГГ</p>
+                        <p class="form__error-text" v-if="!$v.birth_date.isDate">Укажите дату в формате ДД.ММ.ГГГГ</p>
                     </label>
 
                     <label class="form__item" :class="{ 'form__item_has-error': $v.phone_number.$error }">
@@ -72,7 +72,7 @@
 
                     <div class="form__item" :class="{ 'form__item_has-error': $v.client_group.$error }">
                         <p class="form__item-title">Группа клиентов:</p>
-                        <select class="form__selector" name="client_group" v-model="client_group" multiple>
+                        <select class="form__selector" name="client_group" v-model="client_group" :class="status($v.client_group)" multiple>
                             <option value="VIP">VIP</option>
                             <option value="problematic">Проблемные</option>
                             <option value="CHI">ОМС</option>
@@ -82,7 +82,7 @@
                     
                     <div class="form__item">
                         <p class="form__item-title">Лечащий врач:</p>
-                        <select class="form__selector" name="doctor_name" v-model="doctor_name">
+                        <select class="form__selector" name="doctor_name" v-model="doctor_name" :class="status($v.doctor_name)">
                             <option disabled value="">Выберите один из вариантов</option>
                             <option value="Ivanov">Иванов</option>
                             <option value="Zakharov">Захаров</option>
@@ -144,6 +144,54 @@
                     <label class="form__item" :class="{ 'form__item_has-error': $v.house_number.$error }">
                         <p class="form__item-title">Дом:</p>
                         <input class="form__input" name="house_number" type="text" v-model.trim="$v.house_number.$model" :class="status($v.street)" placeholder="Номер дома">
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="form__fieldset">
+                <legend>Документ удостоверяющий личность</legend>
+                <div class="form__fieldset-items-container">
+                    <div class="form__item" :class="{ 'form__item_has-error': $v.document_type.$error }">
+                        <p class="form__item-title">Тип документа:</p>
+                        <select class="form__selector" name="document_type" v-model="document_type" :class="status($v.document_type)">
+                            <option disabled value="">Выберите один из вариантов</option>
+                            <option value="passport">Паспорт</option>
+                            <option value="birth_certificate">Свидетельство о рождении</option>
+                            <option value="driving_license">Водительское удостоверение</option>
+                        </select>
+                        <p class="form__error-text" v-if="!$v.document_type.required">Тип документа является обязательным полем!</p>
+                    </div>
+
+                    <label v-if="document_type === 'birth_certificate'" class="form__item" :class="{ 'form__item_has-error': $v.birth_certificate_series.$error }">
+                        <p class="form__item-title">Серия свидетельства:</p>
+                        <input class="form__input" name="document_series" type="text" v-model.trim="$v.birth_certificate_series.$model" :class="status($v.birth_certificate_series)" placeholder="Серия, например II-АБ">
+                        <p class="form__error-text" v-if="!$v.birth_certificate_series.isBirthCertificateSeries">Укажите серию в правильном формате, например II-АБ или I-ЙК</p>
+                    </label>
+
+                    <label v-else class="form__item" :class="{ 'form__item_has-error': $v.document_series.$error }">
+                        <p class="form__item-title">Серия:</p>
+                        <input class="form__input" name="document_series" type="text" v-model.trim="$v.document_series.$model" :class="status($v.document_series)" placeholder="Серия, например 1234">
+                        <p class="form__error-text" v-if="!$v.document_series.numeric">В серии документа допускаются только цифры, без пробелов</p>
+                        <p class="form__error-text" v-if="($v.document_series.numeric && (!$v.document_series.minLength || !$v.document_series.maxLength))">Серия документа должна состоять из {{ $v.document_series.$params.minLength.min }} цифр</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.document_number.$error }">
+                        <p class="form__item-title">Номер:</p>
+                        <input class="form__input" name="document_number" type="text" v-model.trim="$v.document_number.$model" :class="status($v.document_number)" placeholder="Номер">
+                        <p class="form__error-text" v-if="!$v.document_number.numeric">В номере документа допускаются только цифры, без пробелов</p>
+                        <p class="form__error-text" v-if="($v.document_number.numeric && (!$v.document_number.minLength || !$v.document_number.maxLength))">Номер документа должен состоять из {{ $v.document_number.$params.minLength.min }} цифр</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.document_issuer.$error }">
+                        <p class="form__item-title">Кем выдан:</p>
+                        <textarea class="form__textarea" name="document_issuer" v-model.trim="$v.document_issuer.$model" :class="status($v.document_issuer)" placeholder="Название органа выдачи"></textarea>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.document_date.$error }">
+                        <p class="form__item-title">Дата выдачи:</p>
+                        <input class="form__input" name="document_date" type="text" v-model.trim="$v.document_date.$model" :class="status($v.document_date)" placeholder="ДД.ММ.ГГГГ">
+                        <p class="form__error-text" v-if="!$v.document_date.required">Дата выдачи документа является обязательным полем!</p>
+                        <p class="form__error-text" v-if="!$v.document_date.isDate">Укажите дату в формате ДД.ММ.ГГГГ</p>
                     </label>
                 </div>
             </fieldset>
