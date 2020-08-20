@@ -18,7 +18,7 @@
             <fieldset class="form__fieldset">
                 <legend>Личная информация</legend>
                 <div class="form__fieldset-items-container">
-                    <label class="form__item" :class="{ 'form__item_has-error': $v.last_name.$error }">
+                    <label class="form__item form__required-field" :class="{ 'form__item_has-error': $v.last_name.$error }">
                         <p class="form__item-title">Фамилия:</p>
                         <input class="form__input" name="last_name" type="text" v-model.trim="$v.last_name.$model" :class="status($v.last_name)" placeholder="Ваша фамилия">
                         <p class="form__error-text" v-if="!$v.last_name.required">Фамилия является обязательным полем!</p>
@@ -27,7 +27,7 @@
                         <p class="form__error-text" v-if="!$v.last_name.isName">Фамилия может содержать только буквы, дефисы и пробелы</p>
                     </label>
 
-                    <label class="form__item" :class="{ 'form__item_has-error': $v.first_name.$error }">
+                    <label class="form__item form__required-field" :class="{ 'form__item_has-error': $v.first_name.$error }">
                         <p class="form__item-title">Имя:</p>
                         <input class="form__input" name="first_name" type="text" v-model.trim="$v.first_name.$model" :class="status($v.first_name)" placeholder="Ваше имя">
                         <p class="form__error-text" v-if="!$v.first_name.required">Имя является обязательным полем!</p>
@@ -44,14 +44,14 @@
                         <p class="form__error-text" v-if="!$v.middle_name.isName">Отчество может содержать только буквы, дефисы и пробелы</p>
                     </label>
 
-                    <label class="form__item" :class="{ 'form__item_has-error': $v.birth_date.$error }">
+                    <label class="form__item form__required-field" :class="{ 'form__item_has-error': $v.birth_date.$error }">
                         <p class="form__item-title">Дата рождения:</p>
                         <input class="form__input" name="birth_date" type="text" v-model.trim="$v.birth_date.$model" :class="status($v.birth_date)" placeholder="ДД.ММ.ГГГГ">
                         <p class="form__error-text" v-if="!$v.birth_date.required">Дата рождения является обязательным полем!</p>
                         <p class="form__error-text" v-if="!$v.birth_date.isDate">Укажите дату в формате ДД.ММ.ГГГГ</p>
                     </label>
 
-                    <label class="form__item" :class="{ 'form__item_has-error': $v.phone_number.$error }">
+                    <label class="form__item form__required-field" :class="{ 'form__item_has-error': $v.phone_number.$error }">
                         <p class="form__item-title">Номер телефона (начиная с 7):</p>
                         <input class="form__input" name="phone_number" type="tel" v-model.trim="$v.phone_number.$model" :class="status($v.phone_number)" placeholder="Например, 79999999999">
                         <p class="form__error-text" v-if="!$v.phone_number.required">Номер телефона является обязательным полем!</p>
@@ -70,7 +70,7 @@
                         </label>
                     </div>
 
-                    <div class="form__item" :class="{ 'form__item_has-error': $v.client_group.$error }">
+                    <div class="form__item form__required-field" :class="{ 'form__item_has-error': $v.client_group.$error }">
                         <p class="form__item-title">Группа клиентов:</p>
                         <select class="form__selector" name="client_group" v-model="client_group" :class="status($v.client_group)" multiple>
                             <option value="VIP">VIP</option>
@@ -95,6 +95,7 @@
                         <input class="form__checkbox-input" type="checkbox" name="get_sms_notifications" value="false" v-model="get_sms_notifications" true-value="false" false-value="true">
                     </label>
                 </div>
+                <p class="form__note">* поле, обязательное для заполнения</p>
             </fieldset>
 
             <fieldset class="form__fieldset">
@@ -124,7 +125,7 @@
                         <p class="form__error-text" v-if="!$v.region.isName">Название области может содержать только буквы, дефисы и пробелы</p>
                     </label>
 
-                    <label class="form__item" :class="{ 'form__item_has-error': $v.city.$error }">
+                    <label class="form__item form__required-field" :class="{ 'form__item_has-error': $v.city.$error }">
                         <p class="form__item-title">Город:</p>
                         <input class="form__input" name="city" type="text" v-model.trim="$v.city.$model" :class="status($v.city)" placeholder="Название города">
                         <p class="form__error-text" v-if="!$v.city.required">Название города является обязательным полем!</p>
@@ -146,12 +147,13 @@
                         <input class="form__input" name="house_number" type="text" v-model.trim="$v.house_number.$model" :class="status($v.street)" placeholder="Номер дома">
                     </label>
                 </div>
+                <p class="form__note">* поле, обязательное для заполнения</p>
             </fieldset>
 
             <fieldset class="form__fieldset">
                 <legend>Документ удостоверяющий личность</legend>
                 <div class="form__fieldset-items-container">
-                    <div class="form__item" :class="{ 'form__item_has-error': $v.document_type.$error }">
+                    <div class="form__item form__required-field" :class="{ 'form__item_has-error': $v.document_type.$error }">
                         <p class="form__item-title">Тип документа:</p>
                         <select class="form__selector" name="document_type" v-model="document_type" :class="status($v.document_type)">
                             <option disabled value="">Выберите один из вариантов</option>
@@ -187,13 +189,14 @@
                         <textarea class="form__textarea" name="document_issuer" v-model.trim="$v.document_issuer.$model" :class="status($v.document_issuer)" placeholder="Название органа выдачи"></textarea>
                     </label>
 
-                    <label class="form__item" :class="{ 'form__item_has-error': $v.document_date.$error }">
+                    <label class="form__item form__required-field" :class="{ 'form__item_has-error': $v.document_date.$error }">
                         <p class="form__item-title">Дата выдачи:</p>
                         <input class="form__input" name="document_date" type="text" v-model.trim="$v.document_date.$model" :class="status($v.document_date)" placeholder="ДД.ММ.ГГГГ">
                         <p class="form__error-text" v-if="!$v.document_date.required">Дата выдачи документа является обязательным полем!</p>
                         <p class="form__error-text" v-if="!$v.document_date.isDate">Укажите дату в формате ДД.ММ.ГГГГ</p>
                     </label>
                 </div>
+                <p class="form__note">* поле, обязательное для заполнения</p>
             </fieldset>
 
             <button class="form__submit-button" type="submit">Зарегистрироваться</button>
