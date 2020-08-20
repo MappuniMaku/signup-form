@@ -4,7 +4,7 @@ Vue.use(window.vuelidate.default);
 
 const { required, minLength, maxLength, numeric, between, helpers } = window.validators;
 const isName = helpers.regex('isName', /^[a-zA-Zа-яА-ЯёЁ\-\s]*$/);
-const isDate = helpers.regex('isDate', /^\s*(3[01]|[12][0-9]|0?[1-9])\.(1[012]|0?[1-9])\.((?:19|20)\d{2})\s*$/g);
+const isDate = helpers.regex('isDate', /^(3[01]|[12][0-9]|0[1-9])\.(1[012]|0[1-9])\.((19|20)\d{2})$/g);
 const firstLetterIsUppercase = (value) => {
     if (!value) {
         return true;
