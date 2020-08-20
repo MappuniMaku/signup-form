@@ -40,6 +40,9 @@ let vm = new Vue({
         postal_code: '',
         country: '',
         region: '',
+        city: '',
+        street: '',
+        house_number: '',
     },
     methods: {
         checkForm: function (e) {
@@ -103,6 +106,18 @@ let vm = new Vue({
             isName,
             minLength: minLength(6),
             firstLetterIsUppercase
-        }
+        },
+        city: {
+            required,
+            isName,
+            minLength: minLength(2),
+            firstLetterIsUppercase
+        },
+        street: {
+            isName,
+            minLength: minLength(2),
+            firstLetterIsUppercase
+        },
+        house_number: {},
     }
 });

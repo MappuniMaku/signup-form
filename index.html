@@ -123,6 +123,28 @@
                         <p class="form__error-text" v-if="(!$v.region.firstLetterIsUppercase && $v.region.isName)">Название области должно начинаться с большой буквы</p>
                         <p class="form__error-text" v-if="!$v.region.isName">Название области может содержать только буквы, дефисы и пробелы</p>
                     </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.city.$error }">
+                        <p class="form__item-title">Город:</p>
+                        <input class="form__input" name="city" type="text" v-model.trim="$v.city.$model" :class="status($v.city)" placeholder="Название города">
+                        <p class="form__error-text" v-if="!$v.city.required">Название города является обязательным полем!</p>
+                        <p class="form__error-text" v-if="(!$v.city.minLength && $v.city.firstLetterIsUppercase && $v.city.isName)">Название города должно состоять минимум из {{ $v.city.$params.minLength.min }} букв</p>
+                        <p class="form__error-text" v-if="(!$v.city.firstLetterIsUppercase && $v.city.isName)">Название города должно начинаться с большой буквы</p>
+                        <p class="form__error-text" v-if="!$v.city.isName">Название города может содержать только буквы, дефисы и пробелы</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.street.$error }">
+                        <p class="form__item-title">Улица:</p>
+                        <input class="form__input" name="street" type="text" v-model.trim="$v.street.$model" :class="status($v.street)" placeholder="Название улицы">
+                        <p class="form__error-text" v-if="(!$v.street.minLength && $v.street.firstLetterIsUppercase && $v.street.isName)">Название улицы должно состоять минимум из {{ $v.street.$params.minLength.min }} букв</p>
+                        <p class="form__error-text" v-if="(!$v.street.firstLetterIsUppercase && $v.street.isName)">Название улицы должно начинаться с большой буквы</p>
+                        <p class="form__error-text" v-if="!$v.street.isName">Название улицы может содержать только буквы, дефисы и пробелы</p>
+                    </label>
+
+                    <label class="form__item" :class="{ 'form__item_has-error': $v.house_number.$error }">
+                        <p class="form__item-title">Дом:</p>
+                        <input class="form__input" name="house_number" type="text" v-model.trim="$v.house_number.$model" :class="status($v.street)" placeholder="Номер дома">
+                    </label>
                 </div>
             </fieldset>
 
